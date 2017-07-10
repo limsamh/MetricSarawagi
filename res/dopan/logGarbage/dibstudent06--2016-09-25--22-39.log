@@ -1,0 +1,40 @@
+---------------------------------------------
+----- dibstudent06, Clement, groupe 2
+----- Cube chauffage
+----- Analyse logements par diverses critères
+---------------------------------------------
+
+---------------------------------------------------------
+----- Analyse non listé du cube mobpro, très exploratoire
+---------------------------------------------------------
+
+2016-09-25 22:39:11,035 DEBUG [mondrian.mdx] 92450: select NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Mode de cohabitation.MODCOHAB_Hierarchie_1].[Mode de cohabitation].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:39:11,051 DEBUG [mondrian.mdx] 92450: exec: 16 ms
+2016-09-25 22:41:04,301 DEBUG [mondrian.mdx] 92589: select NON EMPTY {Hierarchize({[Lien avec la personne de reference.LPRM_Hierarchie_1].[Lien avec la personne de reference].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:41:04,410 DEBUG [mondrian.mdx] 92589: exec: 109 ms
+2016-09-25 22:41:49,864 DEBUG [mondrian.mdx] 92634: select NON EMPTY {Hierarchize({[Lien avec la personne de reference.LPRM_Hierarchie_1].[Lien avec la personne de reference].Members})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Nature l'activite economique.NATACTECO_Hierarchie].[Nature de l'activite].Members) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:41:50,160 DEBUG [mondrian.mdx] 92634: exec: 296 ms
+2016-09-25 22:41:53,426 DEBUG [mondrian.mdx] 92696: select NON EMPTY {Hierarchize({[Nature l'activite economique.NATACTECO_Hierarchie].[Nature de l'activite].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:41:53,457 DEBUG [mondrian.mdx] 92696: exec: 31 ms
+2016-09-25 22:42:19,067 DEBUG [mondrian.mdx] 92734: select NON EMPTY {Hierarchize({[Nature l'activite economique.NATACTECO_Hierarchie].[Nature de l'activite].Members})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, {[Measures].[Nombre de voitures des menages (min)]}) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:42:19,285 DEBUG [mondrian.mdx] 92734: exec: 218 ms
+2016-09-25 22:42:21,457 DEBUG [mondrian.mdx] 92757: select NON EMPTY {Hierarchize({[Nature l'activite economique.NATACTECO_Hierarchie].[Nature de l'activite].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Measures].[Nombre de voitures des menages (min)]})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-25 22:42:21,504 DEBUG [mondrian.mdx] 92757: exec: 47 ms

@@ -1,0 +1,48 @@
+----------------------------------
+----- dibstudent12, Salim, groupe3
+----- Cube mobpro
+----- Tests sur distances et ages
+----------------------------------
+
+2016-09-26 07:25:58,867 DEBUG [mondrian.mdx] 128437: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:25:58,899 DEBUG [mondrian.mdx] 128437: exec: 32 ms
+2016-09-26 07:26:34,305 DEBUG [mondrian.mdx] 128455: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:26:34,305 DEBUG [mondrian.mdx] 128455: exec: 0 ms
+2016-09-26 07:26:37,602 DEBUG [mondrian.mdx] 128468: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+where {[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members}
+
+2016-09-26 07:26:37,664 DEBUG [mondrian.mdx] 128468: exec: 62 ms
+2016-09-26 07:26:40,711 DEBUG [mondrian.mdx] 128480: select NON EMPTY Crossjoin([Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members, {[Measures].[Distance trajet domicile - travail (moyenne)]}) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:26:40,774 DEBUG [mondrian.mdx] 128480: exec: 63 ms
+2016-09-26 07:26:44,883 DEBUG [mondrian.mdx] 128493: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:26:44,899 DEBUG [mondrian.mdx] 128493: exec: 16 ms
+2016-09-26 07:26:47,227 DEBUG [mondrian.mdx] 128515: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, {[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:26:47,289 DEBUG [mondrian.mdx] 128515: exec: 62 ms
+2016-09-26 07:26:55,414 DEBUG [mondrian.mdx] 128535: select NON EMPTY {Hierarchize({[Measures].[Distance trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+where {[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}
+
+2016-09-26 07:26:55,430 DEBUG [mondrian.mdx] 128535: exec: 16 ms
+2016-09-26 07:27:01,008 DEBUG [mondrian.mdx] 128555: select NON EMPTY Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}, {[Measures].[Distance trajet domicile - travail (moyenne)]}) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 07:27:01,039 DEBUG [mondrian.mdx] 128555: exec: 31 ms

@@ -1,0 +1,26 @@
+-------------------------------------------------------------------------------
+----- dibstudent07, Iandry, groupe 2
+----- Cube mobsco
+----- Debut d'analyse
+-------------------------------------------------------------------------------
+
+2016-09-27 20:11:17,730 DEBUG [mondrian.mdx] 275555: select NON EMPTY {Hierarchize({[Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-27 20:11:27,511 DEBUG [mondrian.mdx] 275555: exec: 9781 ms
+2016-09-27 20:11:59,683 DEBUG [mondrian.mdx] 275899: select NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Niveau d'instruction].Members) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-27 20:12:00,183 DEBUG [mondrian.mdx] 275899: exec: 500 ms
+2016-09-27 20:12:04,699 DEBUG [mondrian.mdx] 276345: select NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Niveau d'instruction].Members) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-27 20:12:04,777 DEBUG [mondrian.mdx] 276345: exec: 78 ms
+2016-09-27 20:12:13,277 DEBUG [mondrian.mdx] 276788: select NON EMPTY {Hierarchize({[Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members})} ON COLUMNS,
+  NON EMPTY Crossjoin([Niveau d'instruction.Niveau_Instruction_Hierarchie].[Niveau d'instruction].Members, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members) ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-27 20:12:13,449 DEBUG [mondrian.mdx] 276788: exec: 172 ms

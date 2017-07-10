@@ -1,0 +1,26 @@
+-------------------------------------
+----- dibstudent04, Willeme, groupe 1
+----- Cube mobpro
+----- Debut d'analyse
+-------------------------------------
+
+2016-10-11 13:24:16,864 DEBUG [mondrian.mdx] 108188: select NON EMPTY {Hierarchize({[Appartenance du logement a un HLM.LOGT_HLM_Hierarchie_1].[Appartenance a un HLM].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Temps d'emploi du referent.TEMPSEMP_Hierarchie].[Temps d'emploi].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-10-11 13:24:17,067 DEBUG [mondrian.mdx] 108188: exec: 203 ms
+2016-10-11 13:24:21,692 DEBUG [mondrian.mdx] 108227: select NON EMPTY Crossjoin([Appartenance du logement a un HLM.LOGT_HLM_Hierarchie_1].[Appartenance a un HLM].Members, {[Measures].[Consomattion chauffage annuelle (total)]}) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Temps d'emploi du referent.TEMPSEMP_Hierarchie].[Temps d'emploi].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-10-11 13:24:22,067 DEBUG [mondrian.mdx] 108227: exec: 375 ms
+2016-10-11 13:24:28,036 DEBUG [mondrian.mdx] 108247: select NON EMPTY {Hierarchize({[Appartenance du logement a un HLM.LOGT_HLM_Hierarchie_1].[Appartenance a un HLM].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Temps d'emploi du referent.TEMPSEMP_Hierarchie].[Temps d'emploi].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-10-11 13:24:28,067 DEBUG [mondrian.mdx] 108247: exec: 31 ms
+2016-10-11 13:25:45,223 DEBUG [mondrian.mdx] 108283: select NON EMPTY {Hierarchize({[Appartenance du logement a un HLM.LOGT_HLM_Hierarchie_1].[Appartenance a un HLM].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Temps d'emploi du referent.TEMPSEMP_Hierarchie].[Temps d'emploi].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-10-11 13:25:45,239 DEBUG [mondrian.mdx] 108283: exec: 16 ms

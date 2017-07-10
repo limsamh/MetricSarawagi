@@ -1,0 +1,5 @@
+"appartenance_hlm_id","appartenance_hlm_lib"
+"1","Logement appartenant ? un organisme HLM"
+"2","Logement n'appartenant pas ? un organisme HLM"
+"-9","Information d'appartenance HLM inconnue"
+"Z","Hors logement ordinaire"

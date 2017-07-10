@@ -1,0 +1,8 @@
+"anciennete_id","anciennete_lib"
+"0","Ne recherche pas d'emploi"
+"1","Cherche un emploi depuis moins d'un an"
+"2","Cherche un emploi depuis plus d'un an"
+"9","Non d?clar? (inactif)"
+"-9","Anciennet? de recherche d'emploi inconnue"
+"Y","Hors r?sidence principale"
+"Z","Sans objet (en emploi)"

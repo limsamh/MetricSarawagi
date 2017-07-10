@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+----- dibstudent16, Manuel, groupe 3
+----- Cube mobpro
+----- Tests des ages
+----- Obs: dibstudent07 et dibstudent16 en parallèle. Je parie par dibstudent16
+-------------------------------------------------------------------------------
+
+2016-10-04 22:46:05,086 DEBUG [mondrian.mdx] 666: exec: 344 ms
+2016-10-04 22:46:18,492 DEBUG [mondrian.mdx] 700: select NON EMPTY Crossjoin([Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Measures].[Nombre total d'individus]})} ON ROWS
+from [Cube1MobProInd]
+
+2016-10-04 22:46:19,774 DEBUG [mondrian.mdx] 700: exec: 1282 ms
+2016-10-04 22:46:25,258 DEBUG [mondrian.mdx] 6176: select NON EMPTY {Hierarchize({[Measures].[Nombre total d'individus]})} ON COLUMNS,
+  NON EMPTY Crossjoin([Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members) ON ROWS
+from [Cube1MobProInd]
+
+2016-10-04 22:46:25,508 DEBUG [mondrian.mdx] 6176: exec: 250 ms
+2016-10-04 22:51:06,477 DEBUG [mondrian.mdx] 11877: select NON EMPTY {Hierarchize({[Measures].[Nombre total d'individus]})} ON COLUMNS,
+  NON EMPTY Order(Crossjoin([Age revolu quinquenal.AgeRevQ_Hierarchie_1].[Age revolu quinquenal].Members, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members), [Age revolu quinquenal.AgeRevQ_Hierarchie_1].CurrentMember.Name, BASC) ON ROWS
+from [Cube1MobProInd]
+
+2016-10-04 22:51:06,711 DEBUG [mondrian.mdx] 11877: exec: 234 ms
+2016-10-04 22:51:37,617 DEBUG [mondrian.mdx] 17372: select NON EMPTY {Hierarchize({[Measures].[Nombre total d'individus]})} ON COLUMNS,
+  NON EMPTY Order(Hierarchize(Union(Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[20 à 24 ans]}, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members), Union(Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[25 à 29 ans]}, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members), Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[30 à 34 ans]}, [Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members)))), [Age revolu quinquenal.AgeRevQ_Hierarchie_1].CurrentMember.Name, BASC) ON ROWS
+from [Cube1MobProInd]
+
+2016-10-04 22:51:37,742 DEBUG [mondrian.mdx] 17372: exec: 125 ms

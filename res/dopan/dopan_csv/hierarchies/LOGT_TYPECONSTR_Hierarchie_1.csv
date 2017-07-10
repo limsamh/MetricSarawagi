@@ -1,0 +1,8 @@
+"type_id","type_lib"
+"1","B?timent d'habitation d'un seul logement isol?"
+"2","B?timent d'habitation d'un seul logement jumel? ou group? de toute autre fa?on"
+"3","B?timent d'habitation de 2 logements ou plus"
+"4","B?timent ? usage autre qu'habitation"
+"5","Construction provisoire"
+"-9","Type inconnu"
+"Z","Hors logement ordinaire"

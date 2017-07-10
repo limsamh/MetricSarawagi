@@ -1,0 +1,22 @@
+-----------------------------------------------------------------
+----- dibstudent07, Iandry, groupe2
+----- Cube mobsco
+----- Debut d'analyse des écoliers par age
+----- Obs: posible test pour voir si les ages marchent sur mobsco
+-----------------------------------------------------------------
+
+2016-09-23 16:13:42,903 DEBUG [mondrian.mdx] 31051: select NON EMPTY {Hierarchize({[Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Communaute de communes].Members})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-23 16:13:43,278 DEBUG [mondrian.mdx] 31051: exec: 375 ms
+2016-09-23 16:13:46,512 DEBUG [mondrian.mdx] 31114: select NON EMPTY {Hierarchize({[Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({{[Commune de residence.CNERES_Hierarchie_intercommunale].[Communaute de communes].Members}, {[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members}})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-23 16:13:56,372 DEBUG [mondrian.mdx] 31114: exec: 9860 ms
+2016-09-23 16:14:21,184 DEBUG [mondrian.mdx] 32032: select NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, {[Measures].[Nombre de personnes scolarisees de plus de 14 ans (moyenne)]}) ON COLUMNS,
+  NON EMPTY {Hierarchize({{[Commune de residence.CNERES_Hierarchie_intercommunale].[Communaute de communes].Members}, {[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members}})} ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-23 16:14:34,278 DEBUG [mondrian.mdx] 32032: exec: 13094 ms

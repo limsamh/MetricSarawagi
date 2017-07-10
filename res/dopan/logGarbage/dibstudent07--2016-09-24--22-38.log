@@ -1,0 +1,24 @@
+-----------------------------------------------------------------
+----- dibstudent07, Iandry, groupe2
+----- Cube chauffage
+----- Debut d'analyse par anciennete de logement
+-----------------------------------------------------------------
+
+2016-09-24 22:38:20,643 DEBUG [mondrian.mdx] 33620: select NON EMPTY {Hierarchize({[Anciennete d'emmenagement.MENAGE_ANCIENNETE_EMM_Hierarchie_1].[Anciennete].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_administrative].[Commune de residence].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-09-24 22:38:26,831 DEBUG [mondrian.mdx] 33633: select NON EMPTY {Hierarchize({[Anciennete d'emmenagement.MENAGE_ANCIENNETE_EMM_Hierarchie_1].[Anciennete].Members})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Commune de residence.CNERES_Hierarchie_administrative].[Commune de residence].Members})} ON ROWS
+from [Cube4Chauffage]
+
+2016-09-24 22:40:44,878 DEBUG [mondrian.mdx] 33633: exec: 138047 ms
+2016-09-24 22:40:56,346 DEBUG [mondrian.mdx] 33647: select NON EMPTY {Hierarchize({[Anciennete d'emmenagement.MENAGE_ANCIENNETE_EMM_Hierarchie_1].[Anciennete].Members})} ON COLUMNS,
+  NON EMPTY Order({Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members})}, [Commune de residence.CNERES_Hierarchie_intercommunale].CurrentMember.Name, BASC) ON ROWS
+from [Cube4Chauffage]
+
+2016-09-24 22:40:56,518 DEBUG [mondrian.mdx] 33657: select NON EMPTY {Hierarchize({[Anciennete d'emmenagement.MENAGE_ANCIENNETE_EMM_Hierarchie_1].[Anciennete].Members})} ON COLUMNS,
+  NON EMPTY Order({Hierarchize({[Commune de residence.CNERES_Hierarchie_intercommunale].[Commune de residence].Members})}, [Commune de residence.CNERES_Hierarchie_intercommunale].CurrentMember.Name, BASC) ON ROWS
+from [Cube4Chauffage]
+
+2016-09-24 22:42:06,112 DEBUG [mondrian.mdx] 33657: exec: 69594 ms

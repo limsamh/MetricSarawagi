@@ -1,0 +1,23 @@
+-------------------------------------------------------------
+----- dibstudent07, Iandry, groupe2
+----- Cube mobsco
+----- Debut d'analyse des déplacement scolaires 
+----- Obs: dibstudent04 et dibstudent07 continuent en parallèle, mais on revient à mobsco. 
+----- Je parie pour dibstudent07 
+-------------------------------------------------------------
+
+2016-09-25 00:32:38,180 DEBUG [mondrian.mdx] 55748: select NON EMPTY Hierarchize(Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre de personnes des menages (moyenne)]}), Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre total d'individus]}), Union(Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre de personnes des menages (moyenne)]}), Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre total d'individus]}))))) ON COLUMNS,
+  NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, {[Categorie socioprofessionnelle de la personne de reference.CSP_Hierarchie_1].[Employés]}) ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-25 00:32:38,305 DEBUG [mondrian.mdx] 55748: exec: 125 ms
+2016-09-25 00:32:50,306 DEBUG [mondrian.mdx] 55807: select NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, {[Categorie socioprofessionnelle de la personne de reference.CSP_Hierarchie_1].[Employés]}) ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre de personnes des menages (moyenne)]}), Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre total d'individus]}), Union(Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre de personnes des menages (moyenne)]}), Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre total d'individus]}))))) ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-25 00:32:50,353 DEBUG [mondrian.mdx] 55807: exec: 47 ms
+2016-09-25 00:32:52,447 DEBUG [mondrian.mdx] 55866: select NON EMPTY Hierarchize(Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre de personnes des menages (moyenne)]}), Union(Crossjoin([Commune de residence.CNERES_Hierarchie_administrative].[Departement].Members, {[Measures].[Nombre total d'individus]}), Union(Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre de personnes des menages (moyenne)]}), Crossjoin({[Commune de residence.CNERES_Hierarchie_administrative].[CENTRE].[LOIR-ET-CHER].[BLOIS]}, {[Measures].[Nombre total d'individus]}))))) ON COLUMNS,
+  NON EMPTY Crossjoin([Age revolu en 10 classes.AgeRev10_Hierarchie_1].[Classe d'ages revolus].Members, {[Categorie socioprofessionnelle de la personne de reference.CSP_Hierarchie_1].[Employés]}) ON ROWS
+from [Cube2MobScoInd]
+
+2016-09-25 00:32:52,478 DEBUG [mondrian.mdx] 55866: exec: 31 ms

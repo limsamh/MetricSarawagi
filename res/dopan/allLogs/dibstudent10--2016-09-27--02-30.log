@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------
+----- dibstudent10, Marc, groupe 1
+----- Cube mobpro
+----- Analyse des distances parcourus par les differents sexes en fonction du niveau d'études
+----- Analyse 1 listé par l'étudiant
+----- Obs: En réalité étudie les durées de trajet 
+-------------------------------------------------------------------------------
+
+2016-09-27 02:30:10,377 DEBUG [mondrian.mdx] 176642: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:30:10,393 DEBUG [mondrian.mdx] 176642: exec: 16 ms
+2016-09-27 02:30:10,549 DEBUG [mondrian.mdx] 176656: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Sexe.Sexe_Hierarchie].[Sexe].Members})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:30:10,564 DEBUG [mondrian.mdx] 176656: exec: 15 ms
+2016-09-27 02:30:32,096 DEBUG [mondrian.mdx] 176674: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:30:32,221 DEBUG [mondrian.mdx] 176674: exec: 125 ms
+2016-09-27 02:30:37,455 DEBUG [mondrian.mdx] 176704: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members), Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 2].Members))) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:30:37,643 DEBUG [mondrian.mdx] 176704: exec: 188 ms
+2016-09-27 02:33:28,523 DEBUG [mondrian.mdx] 176775: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:33:28,539 DEBUG [mondrian.mdx] 176775: exec: 16 ms
+2016-09-27 02:35:28,273 DEBUG [mondrian.mdx] 176805: select NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (moyenne)]})} ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members), Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 2].Members))) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:35:28,289 DEBUG [mondrian.mdx] 176805: exec: 16 ms
+2016-09-27 02:49:32,514 DEBUG [mondrian.mdx] 176882: select NON EMPTY Crossjoin({[Measures].[Duree trajet domicile - travail (moyenne)]}, [Temps d'emploi.TEMPSEMP_Hierarchie].[Temps d'emploi].Members) ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members), Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 2].Members))) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:49:32,982 DEBUG [mondrian.mdx] 176882: exec: 468 ms
+2016-09-27 02:56:42,489 DEBUG [mondrian.mdx] 176965: select NON EMPTY Crossjoin({[Measures].[Duree trajet domicile - travail (moyenne)]}, Crossjoin([Temps d'emploi.TEMPSEMP_Hierarchie].[Temps d'emploi].Members, [Type de menage.TYPMEN_Hierarchie].[Type regroupe en 4 categories].Members)) ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 1].Members), Crossjoin([Sexe.Sexe_Hierarchie].[Sexe].Members, [Niveau d'instruction.Niveau_Instruction_Hierarchie].[Categorie 2].Members))) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-27 02:56:43,083 DEBUG [mondrian.mdx] 176965: exec: 594 ms

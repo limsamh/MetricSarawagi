@@ -1,0 +1,8 @@
+"niveau_id","niveau_nom"
+"0","Aucune voiture"
+"1","Une seule voiture"
+"2","Deux voitures"
+"3","Trois voitures ou plus"
+"-9","Niveau inconnu"
+"X","Logement ordinaire inoccup?"
+"Z","Hors logement ordinaire"

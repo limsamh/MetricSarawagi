@@ -1,0 +1,27 @@
+----------------------------------------------------------
+----- dibstudent12, Salim, groupe3
+----- Cube mobsco
+----- Tests sur age
+----------------------------------------------------------
+
+2016-09-26 08:17:11,043 DEBUG [mondrian.mdx] 133442: select NON EMPTY {Hierarchize({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]})} ON COLUMNS,
+  NON EMPTY {Hierarchize({[Annee du recensement.Annee_rencesement_Hierarchie_1].[toutes les annees]})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 08:17:11,059 DEBUG [mondrian.mdx] 133442: exec: 16 ms
+2016-09-26 08:17:20,590 DEBUG [mondrian.mdx] 133488: select NON EMPTY Crossjoin({[Annee du recensement.Annee_rencesement_Hierarchie_1].[toutes les annees]}, {[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}) ON COLUMNS,
+  NON EMPTY {Hierarchize({[Measures].[Duree trajet domicile - travail (max)]})} ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 08:17:20,621 DEBUG [mondrian.mdx] 133488: exec: 31 ms
+2016-09-26 08:17:32,403 DEBUG [mondrian.mdx] 133609: select NON EMPTY {Hierarchize({[Annee du recensement.Annee_rencesement_Hierarchie_1].[toutes les annees]})} ON COLUMNS,
+  NON EMPTY Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}, {[Measures].[Duree trajet domicile - travail (max)]}) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 08:17:32,418 DEBUG [mondrian.mdx] 133609: exec: 15 ms
+2016-09-26 08:17:43,246 DEBUG [mondrian.mdx] 133638: select NON EMPTY {Hierarchize({[Annee du recensement.Annee_rencesement_Hierarchie_1].[toutes les annees]})} ON COLUMNS,
+  NON EMPTY Hierarchize(Union(Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}, {[Measures].[Duree trajet domicile - travail (max)]}), Crossjoin({[Age revolu quinquenal.AgeRevQ_Hierarchie_1].[tous les ages revolus]}, {[Measures].[Depense trajet domicile - travail (max)]}))) ON ROWS
+from [Cube1MobProInd]
+
+2016-09-26 08:17:43,278 DEBUG [mondrian.mdx] 133638: exec: 32 ms
+

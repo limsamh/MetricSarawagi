@@ -1,0 +1,8 @@
+"mode_id","mode_nom","categorie_id","categorie_nom"
+"1","Pas de transport","1","Pas de transport"
+"2","Marche ? pied","2","Modes personnels"
+"3","Deux roues","2","Modes personnels"
+"4","Voiture, camion, fourgonnette","2","Modes personnels"
+"5","Transports en commun","3","Transports en commun"
+"-9","Mode inconnu","-9","Mode inconnu"
+"Z","Sans objet","Z","Sans objet"
