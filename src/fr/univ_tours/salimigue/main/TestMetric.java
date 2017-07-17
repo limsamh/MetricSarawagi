@@ -72,8 +72,8 @@ test.evaluateDopanLog("res/dopan/cleanLogs/dibstudent04--2016-09-25--21-46.log")
         ExplorationScorer es = new ExplorationScorer(be);
         
         es.addMetric(new MetricSarawagi(be));
-        es.addMetric(new MetricIsRefine(be));
-        es.addMetric(new MetricIterativeCommonAggregation(be));
+        //es.addMetric(new MetricIsRefine(be));
+        //es.addMetric(new MetricIterativeCommonAggregation(be));
         
         //Random session from the log
         SaikuLogLoader  sll = new SaikuLogLoader(be, arg_logFile);

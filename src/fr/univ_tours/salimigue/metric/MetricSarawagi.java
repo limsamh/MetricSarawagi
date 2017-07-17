@@ -13,7 +13,9 @@ import fr.univ_tours.li.mdjedaini.ideb.eval.scoring.MetricScore;
 import fr.univ_tours.li.mdjedaini.ideb.olap.EAB_Hierarchy;
 import fr.univ_tours.li.mdjedaini.ideb.olap.query.Query;
 import fr.univ_tours.li.mdjedaini.ideb.olap.result.EAB_Cell;
+import fr.univ_tours.li.mdjedaini.ideb.olap.result.Result;
 import fr.univ_tours.li.mdjedaini.ideb.struct.CellList;
+import fr.univ_tours.li.mdjedaini.ideb.tools.Stats;
 import fr.univ_tours.salimigue.mapping.ResultMapping;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,14 +61,16 @@ public class MetricSarawagi extends Metric{
         
         //Liste qui contiendra les scores finaux
         List<Double> queryScoreList  = new ArrayList<>();
-        
+        int i =1;
         //Parcours de toutes les requêtes de l'exploration
         for(Query q_tmp : arg_tr.getWorkSession().getQueryList()) {
-            
+            System.out.println("+++++++++++++Requete numero:  " + i);
             queryScoreList.add(this.applyOnQuery(q_tmp, arg_tr));
+            
+            i++;
         }
-        
-        result.score = new KL_Divergence().compute(queryScoreList, queryScoreList);
+        result.score = Stats.average(queryScoreList);
+        //result.score = new KL_Divergence().compute(queryScoreList, queryScoreList);
         
         result.addScoreList(queryScoreList);
         
@@ -81,7 +85,9 @@ public class MetricSarawagi extends Metric{
      * @return
      */
     public Double applyOnQuery(Query arg_q, Exploration arg_tr) {
+        List<Double> queryScorePredic  = new ArrayList<>();
         
+        List<Double> queryScoreActual  = new ArrayList<>();
         HashMap <EAB_Cell, Double> cellPredictionQuery = new HashMap<>();
         ResultMapping r = new ResultMapping(arg_q.getResult());
         
@@ -90,40 +96,49 @@ public class MetricSarawagi extends Metric{
         Double result   = 0.;
         
         
-        
         CellList currentCells = arg_q.getResult().getCellList();
         
-        
-        
+     
         cellPredictionQuery = preRemplissage(arg_q);
         
         Double score = 0.;
-        
+        int i =1;
         for(EAB_Cell cCur : currentCells.getCellCollection() ){
-            Double temp;
+             //Calcul de l'aggrégat à comparer
+            
+            //liste des contraintes et l'aggregat predit
+            System.out.println("++++++++++++++Contrainte numero : " + i);
+          
             //Calcul de l'aggrégat à comparer
             
             //liste des contraintes et l'aggregat predit
             result =  computeRepartition(cCur, aggregates.get(cCur));
             
+            //on ajoute  la cellule aux cellules déjà vues
             this.cellsToPredict.put(cCur, cCur.getValueAsDouble());
-            
-            temp = result-cCur.getValueAsDouble();
-            
-            score += temp;
-            System.out.println("Actual: " + cCur.getValueAsDouble() + " Expected " + result );
-            //Remplissage de la prédiction
+           //Remplissage de la prédiction
             cellPredictionQuery.put(cCur, result);
+            
+            queryScorePredic.add(Math.abs(result));
+            queryScoreActual.add(cCur.getValueAsDouble());
+            
+            i++;
         }
         
-        int size = currentCells.getCellCollection().size();
+         System.out.println("-----------------Taille queryScorePredic :" + queryScorePredic.size());
+        System.out.println("-----------------Taille queryScoreActual : " + queryScoreActual.size());
         
+        for(int j = 0 ; j< queryScorePredic.size(); j++){
+        System.out.println("++++++queryScorePredic :" + queryScorePredic.get(j) + " +++++queryScoreActual : " + queryScoreActual.get(j));
+          
+        }
         
-        result = score/size ;
-      
-        System.out.println(" Prediction Query : " + cellPredictionQuery);
-  
+        KL_Divergence k = new KL_Divergence();
+        result = k.compute(queryScoreActual,queryScorePredic) ;
+        System.out.println(" Prediction " + cellPredictionQuery);
+        System.out.println(" Taille prediction exploration " + this.cellsToPredict.size());
         
+        System.out.println("-----*******Resu:   " + result);
         r = null;
         return result;
     }
@@ -212,20 +227,45 @@ public class MetricSarawagi extends Metric{
         
         Iterator<EAB_Cell> it_cell  = setConst.iterator();
         
+        System.out.println("---Petit test ");
+        
+        System.out.println("---Taille de setConst: " + setConst.size());
+        
+        System.out.println("---Valeur de cAgg: " + cAgg.getValueAsDouble());
+        
         if(setConst.size()>= 2){
-            
-            
-            
             EAB_Cell c1 = it_cell.next();
             EAB_Cell c2 = it_cell.next();
+            
+            while(it_cell.hasNext()){
+                
+                EAB_Hierarchy h_diff = c1.getDifferentialHierarchyList(c2).iterator().next();
+                if(!c1.getMemberByHierarchy(h_diff).isAll())
+                    nbChild+= c1.getMemberByHierarchy(h_diff).getParentMember().getChildren().size();
+                
+                c1 =c2;
+                
+                if(it_cell.hasNext())
+                    c2=it_cell.next();
+            }
+            
+            
+            /*
+            
+            EAB_Cell c1 = it_cell.next();
+            System.out.println("Valeur c1 :" + c1.getValueAsDouble());
+            EAB_Cell c2 = it_cell.next();
+            //   System.out.println("Valeur c2 :" + c2.getValueAsDouble());
             
             //La hierachie differentielle
             EAB_Hierarchy h_diff = c1.getDifferentialHierarchyList(c2).iterator().next();
             
             if(!c1.getMemberByHierarchy(h_diff).isAll())
-                nbChild = c1.getMemberByHierarchy(h_diff).getParentMember().getChildren().size();
-            
+            nbChild = c1.getMemberByHierarchy(h_diff).getParentMember().getChildren().size();
+            */
         }
+        
+        System.out.println("NBCHILD = " + nbChild);
         
         resu  = (valeurAggregee - aggregat) / nbChild;
         
