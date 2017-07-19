@@ -86,56 +86,66 @@ public class MetricSarawagi extends Metric{
      */
     public Double applyOnQuery(Query arg_q, Exploration arg_tr) {
         List<Double> queryScorePredic  = new ArrayList<>();
-        
         List<Double> queryScoreActual  = new ArrayList<>();
-        HashMap <EAB_Cell, Double> cellPredictionQuery = new HashMap<>();
-        ResultMapping r = new ResultMapping(arg_q.getResult());
         
+        Double totalReq = 0.0;
+        
+        HashMap <EAB_Cell, Double> cellPredictionQuery = new HashMap<>();
+        
+        HashMap <EAB_Cell, Double> cellPredictionTemp = new HashMap<>();
+        
+        
+        ResultMapping r = new ResultMapping(arg_q.getResult());
         HashMap<EAB_Cell, Set<EAB_Cell>> aggregates = r.getCellToAggregate();
         
         Double result   = 0.;
-        
-        
+
+        //On essaie d'obtenir le total pour chaque requête
         CellList currentCells = arg_q.getResult().getCellList();
+        for(EAB_Cell ce : currentCells.getCellCollection()){
         
-     
+        totalReq+=ce.getValueAsDouble();
+    }
+        System.out.println("Total de la requete " + arg_q.getQid() + " est: " + totalReq);  
+        
+        //Phase Préremplissage
         cellPredictionQuery = preRemplissage(arg_q);
+        cellPredictionTemp =  premierPas(cellPredictionQuery,totalReq);
+     
+       
         
-        Double score = 0.;
-        int i =1;
+        
         for(EAB_Cell cCur : currentCells.getCellCollection() ){
-             //Calcul de l'aggrégat à comparer
-            
-            //liste des contraintes et l'aggregat predit
-            System.out.println("++++++++++++++Contrainte numero : " + i);
-          
-            //Calcul de l'aggrégat à comparer
-            
-            //liste des contraintes et l'aggregat predit
-            result =  computeRepartition(cCur, aggregates.get(cCur));
-            
-            //on ajoute  la cellule aux cellules déjà vues
-            this.cellsToPredict.put(cCur, cCur.getValueAsDouble());
-           //Remplissage de la prédiction
-            cellPredictionQuery.put(cCur, result);
-            
-            queryScorePredic.add(Math.abs(result));
-            queryScoreActual.add(cCur.getValueAsDouble());
-            
-            i++;
+           
+          this.cellsToPredict.put(cCur, cCur.getValueAsDouble());
+           queryScoreActual.add(cCur.getValueAsDouble());
+       
         }
         
-         System.out.println("-----------------Taille queryScorePredic :" + queryScorePredic.size());
+        
+        for (EAB_Cell ce : cellPredictionTemp.keySet()) {
+            Double temp = cellPredictionTemp.get(ce);
+            queryScorePredic.add(temp);
+        }
+       
+        System.out.println("-----------------Taille cellPredictionTemp :" + queryScorePredic.size());
         System.out.println("-----------------Taille queryScoreActual : " + queryScoreActual.size());
         
-        for(int j = 0 ; j< queryScorePredic.size(); j++){
-        System.out.println("++++++queryScorePredic :" + queryScorePredic.get(j) + " +++++queryScoreActual : " + queryScoreActual.get(j));
-          
-        }
+        for(int j = 0 ; j< queryScoreActual.size(); j++){
+        System.out.println(" +++++queryScoreActual : " + queryScoreActual.get(j));
+                }
+        
+        
+            for(int j = 0 ; j< queryScorePredic.size(); j++){
+                
+        System.out.println("  ++++++queryScorePredic : " + queryScorePredic.get(j));
+                }
+                      
+           
         
         KL_Divergence k = new KL_Divergence();
-        result = k.compute(queryScoreActual,queryScorePredic) ;
-        System.out.println(" Prediction " + cellPredictionQuery);
+        result = k.computeNormalized(queryScoreActual,queryScorePredic) ;
+        System.out.println(" Taille Prediction " + cellPredictionQuery.size());
         System.out.println(" Taille prediction exploration " + this.cellsToPredict.size());
         
         System.out.println("-----*******Resu:   " + result);
@@ -159,7 +169,8 @@ public class MetricSarawagi extends Metric{
             if(this.cellsToPredict.containsKey(cell))
                 
                 resu.put(cell, cell.getValueAsDouble());
-            
+            else
+                resu.put(cell, 0.0);
             
             
         }
@@ -168,6 +179,61 @@ public class MetricSarawagi extends Metric{
         return resu;
         
     }
+    
+    public HashMap <EAB_Cell, Double> premierPas(HashMap <EAB_Cell, Double> arg_predic, Double arg_total){
+        
+        HashMap<EAB_Cell, Double> resu = new HashMap<>();
+        
+       
+        int nb=0;
+        Double sommeNonVide =0.0;
+        for(EAB_Cell ce : arg_predic.keySet()){
+           
+            if (arg_predic.get(ce).equals(0.0)) {
+             nb++;   
+                }
+            else
+                sommeNonVide+=arg_predic.get(ce);
+        }
+        
+        //On remet le pointeur avant le début.
+        
+        
+        for(EAB_Cell ce : arg_predic.keySet()){
+        
+            if (arg_predic.get(ce).equals(0.0)) {
+                //à modifier. Prendre en compte les autres sommes où la cellule n'est pas vide
+                resu.put(ce, (arg_total-sommeNonVide)/nb);
+                 }
+            else
+            resu.put(ce, arg_predic.get(ce));
+        }
+        
+        
+        
+        return resu;
+    }
+    
+    /**
+     * Cette méthode permet d'avoir le total en fonction d'une requête.
+     * @param arg_q
+     * @return 
+     */
+    public Double calculTotalReq(Query arg_q){
+        Double resu =0.0;
+        
+        CellList cells = arg_q.getResult().getCellList();
+        for(EAB_Cell ce : cells.getCellCollection()){
+            
+            resu +=ce.getValueAsDouble();
+        }
+        
+        return resu;
+        
+    }
+    
+    
+    
     
     /**
      * Cette méthode calcule la somme des cellules déjà vues
@@ -233,6 +299,8 @@ public class MetricSarawagi extends Metric{
         
         System.out.println("---Valeur de cAgg: " + cAgg.getValueAsDouble());
         
+        if(setConst.size() <= 1)System.out.println("ATTENTION --------- Une seule contrainte disponible ici");
+        
         if(setConst.size()>= 2){
             EAB_Cell c1 = it_cell.next();
             EAB_Cell c2 = it_cell.next();
@@ -263,6 +331,7 @@ public class MetricSarawagi extends Metric{
             if(!c1.getMemberByHierarchy(h_diff).isAll())
             nbChild = c1.getMemberByHierarchy(h_diff).getParentMember().getChildren().size();
             */
+            nbChild--;
         }
         
         System.out.println("NBCHILD = " + nbChild);
