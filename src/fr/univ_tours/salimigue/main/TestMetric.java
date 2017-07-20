@@ -29,7 +29,7 @@ import java.util.Set;
 import mondrian.olap.Cell;
 
 /**
- *
+ * Test class used for Sarawagi metric 
  * @author Salim IGUE
  */
 public class TestMetric {
@@ -42,10 +42,8 @@ public class TestMetric {
     public static void main(String[] args) {
         
         TestMetric test = new TestMetric();
-        
-//        test.evaluateCubeloadLog();
-test.evaluateDopanLog("res/dopan/cleanLogs/dibstudent04--2016-09-25--21-46.log");
-//test.evaluateDopanLog("res/dopan/cleanLogs/dibstudent07--2016-09-27--20-11.log");
+ 
+         test.evaluateDopanLog("res/dopan/cleanLogs/dibstudent04--2016-09-25--21-46.log");
 
     }
     
@@ -72,8 +70,7 @@ test.evaluateDopanLog("res/dopan/cleanLogs/dibstudent04--2016-09-25--21-46.log")
         ExplorationScorer es = new ExplorationScorer(be);
         
         es.addMetric(new MetricSarawagi(be));
-        //es.addMetric(new MetricIsRefine(be));
-        //es.addMetric(new MetricIterativeCommonAggregation(be));
+        es.addMetric(new MetricIsRefine(be));
         
         //Random session from the log
         SaikuLogLoader  sll = new SaikuLogLoader(be, arg_logFile);

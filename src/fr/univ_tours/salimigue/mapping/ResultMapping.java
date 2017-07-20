@@ -19,7 +19,7 @@ import mondrian.olap.Cell;
 import mondrian.olap.Position;
 
 /**
- *
+ * This class is used to gather all the informations needed for one exploration result
  * @author Salim IGUE
  */
 public class ResultMapping {
@@ -42,7 +42,9 @@ public class ResultMapping {
         this.res = res;        
         this.init();
     }
-    
+     /**
+      * Initialization method 
+      */
     private void init(){
       
         resultCoordToCell = new HashMap<>();
@@ -142,7 +144,7 @@ public class ResultMapping {
       
     
     /**
-     * Return for each cell a set of aggregates cells
+     * Return for each cell a set of aggregates cells (List of constraints)
      * @return 
      */
     private HashMap<EAB_Cell, Set<EAB_Cell>> getAggregates(){
@@ -188,9 +190,9 @@ public class ResultMapping {
     }
     
     /**
-     * Return a Set of constraints (Cells) according to an aggregate row
+     * Return a Set of cells according to an aggregate row
      * @param c1
-     * @return 
+     * @return the set of cells
      */
     public Set<EAB_Cell> getConstraintsCell(EAB_Cell c1){
      

@@ -7,13 +7,12 @@ package fr.univ_tours.salimigue.main;
 
 import fr.univ_tours.li.mdjedaini.ideb.BenchmarkEngine;
 import fr.univ_tours.li.mdjedaini.ideb.io.SaikuLogLoader;
-import fr.univ_tours.li.mdjedaini.ideb.io.SimpleLogLoader;
 import fr.univ_tours.li.mdjedaini.ideb.params.Parameters;
 import fr.univ_tours.li.mdjedaini.ideb.struct.Log;
 import fr.univ_tours.li.mdjedaini.ideb.struct.Session;
 
 /**
- *
+ * Test class used for Log loader 
  * @author 21308124t
  */
 public class Test_LogLoader {
