@@ -12,12 +12,16 @@ import fr.univ_tours.li.mdjedaini.ideb.eval.metric.Metric;
 import fr.univ_tours.li.mdjedaini.ideb.eval.scoring.MetricScore;
 import fr.univ_tours.li.mdjedaini.ideb.olap.EAB_Hierarchy;
 import fr.univ_tours.li.mdjedaini.ideb.olap.query.Query;
+import fr.univ_tours.li.mdjedaini.ideb.olap.query.QueryMdx;
 import fr.univ_tours.li.mdjedaini.ideb.olap.result.EAB_Cell;
+import fr.univ_tours.li.mdjedaini.ideb.olap.result.Result;
 import fr.univ_tours.li.mdjedaini.ideb.struct.CellList;
 import fr.univ_tours.li.mdjedaini.ideb.tools.Stats;
 import fr.univ_tours.salimigue.mapping.ResultMapping;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -86,10 +90,10 @@ public class MetricSarawagi extends Metric{
         
         //Total
         Double totalReq = 0.0;
-        Double result   = 0.;
+        Double result;
         
-        HashMap <EAB_Cell, Double> cellPredictionQuery = new HashMap<>();
-        HashMap <EAB_Cell, Double> cellPredictionTemp = new HashMap<>();
+        HashMap <EAB_Cell, Double> cellPredictionQuery;
+        HashMap <EAB_Cell, Double> cellPredictionTemp;
         
         //Pour avoir la listes des contraintes pour une cellule
         ResultMapping r = new ResultMapping(arg_q.getResult());
@@ -99,18 +103,23 @@ public class MetricSarawagi extends Metric{
         
         //On essaie d'obtenir le total pour chaque requête
         CellList currentCells = arg_q.getResult().getCellList();
-        for(EAB_Cell ce : currentCells.getCellCollection()){
-            
-            totalReq+=ce.getValueAsDouble();
-        }
-        System.out.println("Total de la requete " + arg_q.getQid() + " est: " + totalReq);
+        
+        //Calcul du total du cube
+        Double totalCube = computeTotalCube(arg_q.getResult());
+        System.out.println("Le total du cube est : " + totalCube);
+        
+        
         
         //Phase Préremplissage
         cellPredictionQuery = preRemplissage(arg_q);
         //Application de la première partition
-        cellPredictionTemp =  computeFirstPartition(cellPredictionQuery,totalReq);
+        cellPredictionTemp =  computeFirstPartition(cellPredictionQuery, totalCube);
         
         
+      
+        
+        //petit test pour voir ce que j'ai à l'intérieur 
+        // computePartition2(cellPredictionQuery);
         
         //Mise à jour des cellules déjà vues
         for(EAB_Cell cCur : currentCells.getCellCollection() ){
@@ -127,9 +136,11 @@ public class MetricSarawagi extends Metric{
             queryScorePredic.add(temp);
         }
         
-        System.out.println("-------Size of queryScorePredicted :" + queryScorePredic.size());
+      /**  System.out.println("-------Size of queryScorePredicted :" + queryScorePredic.size());
         System.out.println("-------Size of queryScoreActual : " + queryScoreActual.size());
-        
+       */
+      
+      
         for(int j = 0 ; j< queryScoreActual.size(); j++){
             System.out.println(" QueryScoreActual: " + queryScoreActual.get(j) + " | "+ "QueryScorePredicted : " + queryScorePredic.get(j) );
         }
@@ -138,9 +149,10 @@ public class MetricSarawagi extends Metric{
         
         KL_Divergence k = new KL_Divergence();
         result = k.computeNormalized(queryScoreActual,queryScorePredic) ;
+        /*
         System.out.println(" Taille Prediction requête " + cellPredictionQuery.size());
         System.out.println(" Taille prediction exploration " + this.cellsToPredict.size());
-        
+     */   
         System.out.println("-- Score: " + result);
         r = null;
         return result;
@@ -173,6 +185,12 @@ public class MetricSarawagi extends Metric{
         
     }
     
+    /**
+     * 
+     * @param arg_predic
+     * @param arg_total
+     * @return 
+     */
     public HashMap <EAB_Cell, Double> computeFirstPartition(HashMap <EAB_Cell, Double> arg_predic, Double arg_total){
         
         HashMap<EAB_Cell, Double> resu = new HashMap<>();
@@ -195,7 +213,7 @@ public class MetricSarawagi extends Metric{
         for(EAB_Cell ce : arg_predic.keySet()){
             
             if (arg_predic.get(ce).equals(0.0)) {
-                //à améliorer. Prendre en compte les sommes temporaires (autre contraintes) où la cellule n'est pas vide
+               
                 resu.put(ce, (arg_total-sommeNonVide)/nb);
             }
             else
@@ -206,35 +224,114 @@ public class MetricSarawagi extends Metric{
         return resu;
     }
     
+
     /**
-     * Cette méthode permet d'avoir le total des valeurs de cellules en fonction d'une requête.
-     * @param arg_q
-     * @return le total
+     * 
+     * @param arg_r
+     * @return 
      */
-    public Double calculTotalReq(Query arg_q){
-        Double resu =0.0;
+    public Double computeTotalCube(Result arg_r){
+   
+        QueryMdx qMdx = new QueryMdx(arg_r.getCube(), arg_r.getQuery().toString());
         
-        CellList cells = arg_q.getResult().getCellList();
-        for(EAB_Cell ce : cells.getCellCollection()){
+        CellList cCell =qMdx.execute(Boolean.TRUE).getCellList();
+        Double resu =0.0;
+        //int taille  = cCell.getCellCollection().size();
+        //System.out.println("TAILLE " + taille );
+        for(EAB_Cell ce : cCell.getCellCollection()){
             
-            resu +=ce.getValueAsDouble();
+            resu += ce.getValueAsDouble();
         }
         
         return resu;
+    }
+    /**
+     * 
+     * @param arg_predic 
+     */
+    public void computePartition2(HashMap <EAB_Cell, Double> arg_predic){
         
+        HashMap<Integer, Double> resu = new HashMap<>();
+        HashMap<Set<EAB_Cell>,HashMap<Integer,Double>> myMap = new HashMap<>();
+        
+        int nbTotaux;
+     
+        Double totaux =0.00;
+        for(EAB_Cell ce : arg_predic.keySet()){
+            System.out.println("Cellule " + ce.toString());
+            
+            //On recupère la liste des contraintes
+            myMap = getCellConstraints(ce);
+            
+            
+            Iterator it =myMap.keySet().iterator();
+            System.out.println("Nombre de contraintes :" + myMap.size());
+            
+            while(it.hasNext()){
+                resu = myMap.get(it.next());
+                for (Integer tmp : resu.keySet()) {
+                    //System.out.println("Total numero :" + tmp +  " Valeur = " + resu.get(tmp));
+                    
+                    
+                }
+            }
+    
+        }
+    
+      
     }
     
-    
-    
-    
+     /**
+     * Return for each cell a set of aggregates cells (One drill up)
+     * @param arg_c
+     * @return 
+     */
+    public HashMap<Set<EAB_Cell>,HashMap<Integer,Double>> getCellConstraints( EAB_Cell arg_c){
+     
+        HashMap<Set<EAB_Cell>,HashMap<Integer,Double>> resu  = new HashMap<>();
+        
+        HashMap<Integer,Double> resuTot = new HashMap<>();
+      
+            Set<EAB_Cell> set_tmp   = new HashSet<>();
+            int i =1;
+            int j =arg_c.getCube().getHierarchyList().size();
+            int k = 0;
+            for(EAB_Hierarchy h_tmp : arg_c.getCube().getHierarchyList()) {
+                
+               Double total = 0.0; 
+                if(!arg_c.getMemberByHierarchy(h_tmp).isAll()) {
+                if(!arg_c.getMemberByHierarchy(h_tmp).isAll()) {
+                    
+                    //test
+                    System.out.println("Nom de la hierarchie : " + h_tmp.getName());
+                    
+                    Collection<EAB_Cell> new_cell   = new HashSet<>(arg_c.rollOnHierarchy(h_tmp));
+                    set_tmp.addAll(new_cell);
+                    
+                   for (EAB_Cell ce : new_cell) {
+                       total +=ce.getValueAsDouble();
+                   }
+                  
+                   resuTot.put(i, total);
+                  i++;
+                }
+                
+               resu.put(set_tmp,resuTot);
+                }
+            k++;
+         
+        }
+        
+        return resu;
+    }
+   
     /**
      * Cette méthode calcule la somme des cellules déjà vues
      * @param arg_c
-     * @param list_cell
      * @return la somme des cellules déjà vues
      */
-    public Double calculAggregat(EAB_Cell arg_c,  Set<EAB_Cell> list_cell){
-        Double somme = 0.;
+    public Double calculAggregat(EAB_Cell arg_c){
+        Double somme;
      
         if(this.cellsToPredict .containsKey(arg_c)){
             
@@ -274,7 +371,7 @@ public class MetricSarawagi extends Metric{
             valeurAggregee = 100.;
         }
         
-        Double aggregat = calculAggregat(cAgg, setConst);
+        Double aggregat = calculAggregat(cAgg);
         
         
         

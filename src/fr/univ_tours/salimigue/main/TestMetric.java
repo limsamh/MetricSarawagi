@@ -70,7 +70,7 @@ public class TestMetric {
         ExplorationScorer es = new ExplorationScorer(be);
         
         es.addMetric(new MetricSarawagi(be));
-        es.addMetric(new MetricIsRefine(be));
+        //es.addMetric(new MetricIsRefine(be));
         
         //Random session from the log
         SaikuLogLoader  sll = new SaikuLogLoader(be, arg_logFile);
