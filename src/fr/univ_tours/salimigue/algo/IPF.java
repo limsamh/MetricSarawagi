@@ -191,7 +191,7 @@ public class IPF {
        
         if(valConv.equals(val)) resu = false;
         valConv = val;
-        System.out.println("LA VALEUR DE VAL EST: " + val/2);
+        System.out.println("LA VALEUR DE VAL EST: " + val);
         return resu;
         
         

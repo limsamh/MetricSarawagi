@@ -75,7 +75,7 @@ public class TestIPF {
 //        
 //                  
         
-        HashMap<Integer,List> res = t_ipf.computeIPF(arg_data, arg_totaux, 50.);
+        HashMap<Integer,List> res = t_ipf.computeIPF(arg_data, arg_totaux, 100.);
         System.out.println("Map results");
         for(Integer i : res.keySet()){
             
