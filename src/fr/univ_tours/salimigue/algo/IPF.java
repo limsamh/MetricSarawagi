@@ -19,7 +19,7 @@ public class IPF {
     Double grandTotal;
     int nbDim;
     HashMap<Integer,List>dataAlgo;
-    
+    Double valConv;
     
     public IPF(int arg_nbDim){
         if(arg_nbDim <2) this.nbDim =2; 
@@ -27,6 +27,7 @@ public class IPF {
         
         dataAlgo = new HashMap<>();
         grandTotal = 1000.; //temporaire
+        valConv=0.;
     }
     
     
@@ -50,11 +51,13 @@ public class IPF {
               
         dataAlgo= checkMap(arg_data,null);
    
+        int k=1;
         
       //Iteration  
-       do{
+       while(convergeAlgo(dataAlgo,arg_gTotal)){
+           if(k>1) dataAlgo = transposeMap(dataAlgo);
            System.out.println("---------------------------------------");
-           System.out.println("Begin Iteration ");
+           System.out.println("Begin Iteration " + k );
            System.out.println("---------------------------------------");
        //Row Iteration
            System.out.println("Row adjustment");
@@ -122,15 +125,16 @@ public class IPF {
        System.out.println("---------------------------------------");
            System.out.println("End Iteration");
        System.out.println("---------------------------------------");
-       //le cas d'arrêt est à revoir, il doit avoir une convergence. Epsilon à définir
-       }while(convergeAlgo(dataAlgo,arg_gTotal));
+       
+       k++;
+       }
        
        
        
         
         
-        
-     return  transposeMap(dataAlgo);  
+        System.out.println("Nombre d'itération " + (--k));
+     return  dataAlgo;  
          
     } 
     /**
@@ -164,16 +168,15 @@ public class IPF {
     
      
     /**
-     * Cette méthode permettra de déterminer le cas d'arrêt des itérations de l'algo
+     * Cette méthode permet de déterminer le cas d'arrêt des itérations de l'algo
      * @param arg_data
      * @param arg_gTotal
      * @return 
      */
     public Boolean convergeAlgo(HashMap<Integer,List>arg_data,Double arg_gTotal){
         
-        //A terminer
-        
-        Boolean resu = false;
+     
+        Boolean resu = true;
        
          Double val =0.;
        
@@ -184,9 +187,11 @@ public class IPF {
               
             }
         }
-       
-        if(val <= arg_gTotal) resu = true;
         
+       
+        if(valConv.equals(val)) resu = false;
+        valConv = val;
+        System.out.println("LA VALEUR DE VAL EST: " + val/2);
         return resu;
         
         
