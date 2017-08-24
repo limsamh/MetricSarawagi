@@ -104,7 +104,7 @@ public class MetricSarawagi extends Metric{
         //On essaie d'obtenir le total pour chaque requête
         CellList currentCells = arg_q.getResult().getCellList();
         
-        //Calcul du total du cube
+        //Calcul du total du cube, i.e. du grand total de la requete
         Double totalCube = computeTotalCube(arg_q.getResult());
         System.out.println("Le total du cube est : " + totalCube);
         
@@ -175,7 +175,7 @@ public class MetricSarawagi extends Metric{
                 
                 resu.put(cell, cell.getValueAsDouble());
             else
-                resu.put(cell, 0.0);
+                resu.put(cell, null);
             
             
         }
@@ -201,7 +201,7 @@ public class MetricSarawagi extends Metric{
         Double sommeNonVide =0.0;
         for(EAB_Cell ce : arg_predic.keySet()){
             
-            if (arg_predic.get(ce).equals(0.0)) {
+            if (arg_predic.get(ce)==null) {
                 nb++;
             }
             else
@@ -212,7 +212,7 @@ public class MetricSarawagi extends Metric{
         //On refait un parcourt
         for(EAB_Cell ce : arg_predic.keySet()){
             
-            if (arg_predic.get(ce).equals(0.0)) {
+            if (arg_predic.get(ce)==null) {
                
                 resu.put(ce, (arg_total-sommeNonVide)/nb);
             }

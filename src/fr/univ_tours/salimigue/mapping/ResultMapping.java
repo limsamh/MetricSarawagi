@@ -54,10 +54,18 @@ public class ResultMapping {
         aggregateToCells = (HashMap<Set<EAB_Cell>, EAB_Cell>) this.getConstraints();
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<EAB_Cell, Set<EAB_Cell>> getCellToAggregate() {
         return cellToAggregate;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Set<EAB_Cell>, EAB_Cell> getAggregateToCells() {
         return aggregateToCells;
     }

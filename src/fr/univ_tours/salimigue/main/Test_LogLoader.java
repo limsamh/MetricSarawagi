@@ -7,6 +7,7 @@ package fr.univ_tours.salimigue.main;
 
 import fr.univ_tours.li.mdjedaini.ideb.BenchmarkEngine;
 import fr.univ_tours.li.mdjedaini.ideb.io.SaikuLogLoader;
+import fr.univ_tours.li.mdjedaini.ideb.olap.query.Query;
 import fr.univ_tours.li.mdjedaini.ideb.params.Parameters;
 import fr.univ_tours.li.mdjedaini.ideb.struct.Log;
 import fr.univ_tours.li.mdjedaini.ideb.struct.Session;
@@ -24,7 +25,7 @@ public class Test_LogLoader {
         
         Test_LogLoader tll  = new Test_LogLoader();
         
-        tll.saikuLogLoader("res/dopan/cleanLogs/dibstudent16--2016-10-04--22-55.log");
+        tll.saikuLogLoader("res/dopan/cleanLogs/dibstudent16--2016-10-04--23-27.log");
         
     }
     
@@ -54,8 +55,12 @@ public class Test_LogLoader {
         
         for(Session s_tmp : myLog.getSessionList()) {
             
-            System.out.println(s_tmp.getSummary());
+            for(Query qs : s_tmp.getQueryList()){
             
+            System.out.println(qs.getQid());
+            System.out.println(qs.toString());
+            
+            }
         }
     }
 }
