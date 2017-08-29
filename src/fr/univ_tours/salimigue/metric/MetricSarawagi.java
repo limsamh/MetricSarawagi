@@ -60,15 +60,18 @@ public class MetricSarawagi extends Metric{
         
         this.cellsToPredict  = new HashMap<>();
    
-        //Liste qui contiendra les scores finaux
+        //This list will contain all of the final scores
         List<Double> queryScoreList  = new ArrayList<>();
         
-        //Parcours de toutes les requêtes de l'exploration
+        //For the whole exploration
         for(Query q_tmp : arg_tr.getWorkSession().getQueryList()) {
             System.out.println("-- Requete numero:  " + q_tmp.getQid());
+            
             queryScoreList.add(this.applyOnQuery(q_tmp, arg_tr));
       
         }
+        
+        
         result.score = Stats.average(queryScoreList);
        
         result.addScoreList(queryScoreList);
@@ -135,12 +138,7 @@ public class MetricSarawagi extends Metric{
             Double temp = cellPredictionTemp.get(ce);
             queryScorePredic.add(temp);
         }
-        
-      /**  System.out.println("-------Size of queryScorePredicted :" + queryScorePredic.size());
-        System.out.println("-------Size of queryScoreActual : " + queryScoreActual.size());
-       */
-      
-      
+     
         for(int j = 0 ; j< queryScoreActual.size(); j++){
             System.out.println(" QueryScoreActual: " + queryScoreActual.get(j) + " | "+ "QueryScorePredicted : " + queryScorePredic.get(j) );
         }
@@ -149,10 +147,7 @@ public class MetricSarawagi extends Metric{
         
         KL_Divergence k = new KL_Divergence();
         result = k.computeNormalized(queryScoreActual,queryScorePredic) ;
-        /*
-        System.out.println(" Taille Prediction requête " + cellPredictionQuery.size());
-        System.out.println(" Taille prediction exploration " + this.cellsToPredict.size());
-     */   
+      
         System.out.println("-- Score: " + result);
         r = null;
         return result;
@@ -231,13 +226,11 @@ public class MetricSarawagi extends Metric{
      * @return 
      */
     public Double computeTotalCube(Result arg_r){
-   
+
         QueryMdx qMdx = new QueryMdx(arg_r.getCube(), arg_r.getQuery().toString());
         
         CellList cCell =qMdx.execute(Boolean.TRUE).getCellList();
-        Double resu =0.0;
-        //int taille  = cCell.getCellCollection().size();
-        //System.out.println("TAILLE " + taille );
+        Double resu =0.0;      
         for(EAB_Cell ce : cCell.getCellCollection()){
             
             resu += ce.getValueAsDouble();
@@ -262,19 +255,10 @@ public class MetricSarawagi extends Metric{
             
             //On recupère la liste des contraintes
             myMap = getCellConstraints(ce);
-            
-            
+          
             Iterator it =myMap.keySet().iterator();
             System.out.println("Nombre de contraintes :" + myMap.size());
-            
-            while(it.hasNext()){
-                resu = myMap.get(it.next());
-                for (Integer tmp : resu.keySet()) {
-                    //System.out.println("Total numero :" + tmp +  " Valeur = " + resu.get(tmp));
-                    
-                    
-                }
-            }
+         
     
         }
     

@@ -11,12 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ *Iterative Proportional Fitting implementation (2D for now)
  * @author Salim IGUE
  */
 public class IPF {
-    
-    Double grandTotal;
+    //Attributes
     int nbDim;
     HashMap<Integer,List>dataAlgo;
     Double valConv;
@@ -26,7 +25,6 @@ public class IPF {
         else this.nbDim = arg_nbDim; 
         
         dataAlgo = new HashMap<>();
-        grandTotal = 1000.; //temporaire
         valConv=0.;
     }
     
@@ -41,24 +39,25 @@ public class IPF {
      * @return 
      */
     public HashMap<Integer,List> computeIPF(HashMap<Integer,List>arg_data, HashMap<Integer,Double>arg_totaux, Double arg_gTotal){
-       //if(checkMap(arg_data)) dataAlgo = initIPF(arg_data);
-       //else dataAlgo = initIPFWithValues(arg_data);
-       
-       
+             
        
        List resTemp2=new ArrayList<>();
        Double totTemp;
-              
+        
+       //Checking if data contains null values 
         dataAlgo= checkMap(arg_data,null);
-   
+        
+        //int used for the iteration
         int k=1;
         
-      //Iteration  
+      //One iteration  
        while(convergeAlgo(dataAlgo,arg_gTotal)){
+           
            if(k>1) dataAlgo = transposeMap(dataAlgo);
            System.out.println("---------------------------------------");
            System.out.println("Begin Iteration " + k );
            System.out.println("---------------------------------------");
+           
        //Row Iteration
            System.out.println("Row adjustment");
        for(Integer i : dataAlgo.keySet()){
@@ -73,10 +72,10 @@ public class IPF {
                        totTemp = arg_totaux.get(j);
                    Double t = calculSomme(dataAlgo.get(i)); 
                    Double cellule = (Double) it.next();
-                       System.out.println("Valeur de la cellule " + cellule);
+                       System.out.println("Old cell value: " + cellule);
                        
                        Double tp =(cellule/t)*totTemp;
-                       System.out.println("Valeur iteration " + tp);
+                       System.out.println("Value: " + tp);
                        
                        resTemp2.add(tp);
                        
@@ -107,10 +106,10 @@ public class IPF {
                        totTemp = arg_totaux.get(j);
                    Double t = calculSomme(dataAlgo.get(i)); 
                    Double cellule = (Double) it.next();
-                       System.out.println("Valeur de la cellule " + cellule);
+                       System.out.println("Old cell value: " + cellule);
                        
                        Double tp =(cellule/t)*totTemp;
-                       System.out.println("Valeur iteration " + tp);
+                       System.out.println("Value: " + tp);
                        
                        resTemp2.add(tp);
                        
@@ -122,8 +121,13 @@ public class IPF {
            dataAlgo.replace(i, resTemp2);
           resTemp2=new ArrayList<>();
        }
+        
+        //To complete
+        //If it was 3D here we will add another loop for the slice adjustment 
+        //If it was 4D here we will add another loop for the stack adjustment 
+        
        System.out.println("---------------------------------------");
-           System.out.println("End Iteration");
+       System.out.println("End Iteration");
        System.out.println("---------------------------------------");
        
        k++;
@@ -133,12 +137,13 @@ public class IPF {
        
         
         
-        System.out.println("Nombre d'itération " + (--k));
+        System.out.println("Number of iteration " + (--k));
+        
      return  dataAlgo;  
          
     } 
     /**
-     * Return the T map
+     * Return the transpose T of the  map
      * @param arg_data
      * @return 
      */
@@ -168,7 +173,7 @@ public class IPF {
     
      
     /**
-     * Cette méthode permet de déterminer le cas d'arrêt des itérations de l'algo
+     * Allow us to know when the algorithm converges
      * @param arg_data
      * @param arg_gTotal
      * @return 
@@ -187,18 +192,16 @@ public class IPF {
               
             }
         }
-        
-       
-        if(valConv.equals(val)) resu = false;
+     
+        if(valConv.equals(val) && val.equals(arg_gTotal) ) resu = false;
         valConv = val;
-        System.out.println("LA VALEUR DE VAL EST: " + val);
         return resu;
         
         
         
     }
     /**
-     * 
+     * Compute the sum of the given list
      * @param arg_l
      * @return 
      */
@@ -211,35 +214,27 @@ public class IPF {
         return resu;
     }
     /**
-     * Verifie si la map contient des null et les remplace par des 1
+     * Check if the map contains null values and replace them by ones
      * @param arg_data
      * @param tab_taille
      * @return 
      */
     public HashMap<Integer,List> checkMap(HashMap<Integer,List>arg_data, int[] tab_taille){
      HashMap<Integer,List>resu = new HashMap<>();
-      int taille = arg_data.get(1).size();
-     
-      
+  
        List rtmp;
       
         for(Integer i : arg_data.keySet()){
             rtmp = arg_data.get(i);
             
             
-            for(int j =0 ; j < rtmp.size(); j++){
-                if(rtmp.get(j)==null){
-                    //rtmp.remove(j);
+            for(int j =0 ; j < rtmp.size(); j++)
+                if(rtmp.get(j)==null)
                  rtmp.set(j, 1.);
-                   
-                }
-                
-            }
-            
+         
            resu.put(i, rtmp);
           
        } 
-      
       
         return resu;
     }
