@@ -89,8 +89,7 @@ public class MetricSarawagi extends Metric{
         List<Double> queryScorePredic  = new ArrayList<>();
         List<Double> queryScoreActual  = new ArrayList<>();
         
-        //Total
-        Double totalReq = 0.0;
+       
         Double result;
         
         HashMap <EAB_Cell, Double> cellPredictionQuery;
@@ -123,6 +122,7 @@ public class MetricSarawagi extends Metric{
         }
         
         
+        //Mise  jour des cellules prédictes
         for (EAB_Cell ce : cellPredictionTemp.keySet()) {
             Double temp = cellPredictionTemp.get(ce);
             queryScorePredic.add(temp);
@@ -133,7 +133,7 @@ public class MetricSarawagi extends Metric{
         }
       
         
-        
+        //Calcul du score de la requête courante
         KL_Divergence k = new KL_Divergence();
         result = k.computeNormalized(queryScoreActual,queryScorePredic) ;
       
@@ -169,7 +169,7 @@ public class MetricSarawagi extends Metric{
     }
     
     /**
-     * 
+     * Compute the partition 
      * @param arg_predic
      * @param arg_total
      * @return 
@@ -233,7 +233,7 @@ public class MetricSarawagi extends Metric{
      */
     public void computePartition2(HashMap <EAB_Cell, Double> arg_predic){
         
-        HashMap<Integer, Double> resu = new HashMap<>();
+      
         HashMap<Set<EAB_Cell>,HashMap<Integer,Double>> myMap = new HashMap<>();
         
      

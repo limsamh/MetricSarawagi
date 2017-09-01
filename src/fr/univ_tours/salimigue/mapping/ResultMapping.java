@@ -111,8 +111,7 @@ public class ResultMapping {
         
         mondrian.olap.Result mondrianR = res.getMondrianResult();
         int [] tabResu = new int[2];
-        
-        //Ce code ne marchera que si on a deux axes
+       
         if(mondrianR.getAxes().length ==2){
             
             
