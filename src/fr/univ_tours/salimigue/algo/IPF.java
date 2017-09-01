@@ -20,6 +20,10 @@ public class IPF {
     HashMap<Integer,List>dataAlgo;
     Double valConv;
     
+    /**
+     *
+     * @param arg_nbDim
+     */
     public IPF(int arg_nbDim){
         if(arg_nbDim <2) this.nbDim =2; 
         else this.nbDim = arg_nbDim; 
@@ -40,7 +44,7 @@ public class IPF {
      */
     public HashMap<Integer,List> computeIPF(HashMap<Integer,List>arg_data, HashMap<Integer,Double>arg_totaux, Double arg_gTotal){
              
-       
+       int nbrow=0,nbcol=0;
        List resTemp2=new ArrayList<>();
        Double totTemp;
         
@@ -49,6 +53,13 @@ public class IPF {
         
         //int used for the iteration
         int k=1;
+        
+        if(nbDim ==2){
+            nbrow = dataAlgo.size();
+            
+            nbcol = dataAlgo.get(1).size();
+        }
+        System.out.println("Map : Nb column: "+ nbcol + "| Nb row : " + nbrow);
         
       //One iteration  
        while(convergeAlgo(dataAlgo,arg_gTotal)){
